@@ -4,3 +4,4 @@
 - [Multihash](https://github.com/multiformats/go-multihash)
 - [P2P](https://github.com/libp2p/go-libp2p)
 - [Testing](https://github.com/stretchr/testify)
+- [P2P DHT](https://github.com/libp2p/go-libp2p-kad-dht)

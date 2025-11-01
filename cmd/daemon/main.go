@@ -18,9 +18,12 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	server := network.NewP2PNetworking(logger)
+	server := network.NewP2PNetworking(network.P2PNetworkingOpts{
+		Logger:         logger,
+		BootstrapPeers: []string{},
+	})
 	defer server.Close()
-	
+
 	if err := server.Start(ctx); err != nil {
 		logger.Error("Error on starting P2PNetworking", zap.Error(err))
 	}

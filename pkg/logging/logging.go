@@ -40,25 +40,23 @@ func newZapLogger() (*zap.Logger, error) {
 		return zap.NewNop(), nil
 	case "development", "dev":
 		// Development logger with more verbose output
-		homeDir, err := os.UserHomeDir()
-		if err != nil {
-			return nil, err
+		if cwd, err := os.Getwd(); err == nil {
+			baseDir = path.Join(cwd, "logs")
 		}
 
-		baseDir = path.Join(homeDir, ".local", "share", "dfs", "logs")
 		logCfg.Level = zap.NewAtomicLevelAt(zapcore.DebugLevel)
 		logCfg = zap.NewDevelopmentConfig()
 	case "production", "prod":
 		// Production logger with structured logging
+		if homeDir, err := os.UserHomeDir(); err == nil {
+			baseDir = path.Join(homeDir, ".local", "share", "dfs", "logs")
+		}
 		logCfg = zap.NewProductionConfig()
 	default:
 		return nil, fmt.Errorf("unknown environment: %s", environment)
 	}
 
-	logCfg.Level = zap.NewAtomicLevelAt(zapcore.DebugLevel)
-	logCfg = zap.NewDevelopmentConfig()
-
-	if err := os.MkdirAll(baseDir, 0x775); err != nil {
+	if err := os.MkdirAll(baseDir, 0755); err != nil {
 		return nil, err
 	}
 

@@ -1,13 +1,7 @@
 package main
 
-import (
-	"github.com/Noah-Wilderom/dfs/pkg/logging"
-)
-
-var (
-	logger = logging.MustNew()
-)
+import "github.com/Noah-Wilderom/dfs/cmd/cli/commands"
 
 func main() {
-	logger.Info("Distributed File System CLI")
+	commands.Execute()
 }

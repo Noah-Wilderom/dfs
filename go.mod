@@ -1,6 +1,6 @@
 module github.com/Noah-Wilderom/dfs
 
-go 1.25.0
+go 1.25
 
 require (
 	github.com/benbjohnson/clock v1.3.5 // indirect

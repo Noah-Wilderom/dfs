@@ -1,0 +1,14 @@
+.idea/
+.vscode/
+*.swp
+
+logs/
+
+bin/
+build/
+
+*.out
+coverage.txt
+*.coverprofile
+
+.DS_Store

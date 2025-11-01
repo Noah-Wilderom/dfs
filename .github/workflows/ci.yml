@@ -1,0 +1,49 @@
+
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.25'
+
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.txt ./...
+
+      - name: Check formatting
+        run: test -z $(gofmt -l .)
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.25'
+
+      - name: Build CLI
+        run: go build -o bin/dfs-cli ./cmd/cli
+
+      - name: Build Daemon
+        run: go build -o bin/dfs-daemon ./cmd/daemon
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries
+          path: bin/
+
